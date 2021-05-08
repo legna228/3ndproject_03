@@ -59,6 +59,7 @@ public class UpcomingEventAdapter extends RecyclerView.Adapter<UpcomingEventAdap
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        // 레이아웃 만듦
         View view = LayoutInflater.from(context).inflate(R.layout.layout_upcoming_events_list_row, parent, false);
         return new ViewHolder(view);
     }
@@ -71,6 +72,10 @@ public class UpcomingEventAdapter extends RecyclerView.Adapter<UpcomingEventAdap
         holder.eventTitleTextView.setText(event.getTitle());
         holder.eventDateTextView.setText(event.getDate());
         holder.eventTimeTextView.setText(event.getTime());
+
+        holder.eventLocationTextView.setText(event.getLocation());
+        holder.eventPhoneTextView.setText(event.getPhoneNumber());
+
         holder.eventNoteTextView.setText(event.getNote());
 
         holder.optionsImageButton.setOnClickListener(new View.OnClickListener() {
@@ -123,6 +128,10 @@ public class UpcomingEventAdapter extends RecyclerView.Adapter<UpcomingEventAdap
         private TextView eventTitleTextView;
         private TextView eventDateTextView;
         private TextView eventTimeTextView;
+
+        private TextView eventLocationTextView;
+        private TextView eventPhoneTextView;
+
         private TextView eventNoteTextView;
         private ImageButton optionsImageButton;
         private ImageButton notificationImageButton;
@@ -137,6 +146,10 @@ public class UpcomingEventAdapter extends RecyclerView.Adapter<UpcomingEventAdap
             eventTitleTextView = (TextView) itemView.findViewById(R.id.UpcomingLayoutCell_TextView_EventTitle);
             eventDateTextView = (TextView) itemView.findViewById(R.id.UpcomingLayoutCell_TextView_EventDate);
             eventTimeTextView = (TextView) itemView.findViewById(R.id.UpcomingLayoutCell_TextView_EventTime);
+
+            eventLocationTextView = (TextView) itemView.findViewById(R.id.UpcomingLayoutCell_TextView_EventLocation);
+            eventPhoneTextView = (TextView) itemView.findViewById(R.id.UpcomingLayoutCell_TextView_EventPhone);
+
             eventNoteTextView = (TextView) itemView.findViewById(R.id.UpcomingLayoutCell_TextView_EventNote);
             optionsImageButton = (ImageButton) itemView.findViewById(R.id.UpcomingLayoutCell_ImageButton_Options);
             notificationImageButton = (ImageButton) itemView.findViewById(R.id.UpcomingLayoutCell_ImageButton_Notification);
@@ -168,8 +181,8 @@ public class UpcomingEventAdapter extends RecyclerView.Adapter<UpcomingEventAdap
                 case R.id.Popup_Item_Delete:
                     if (mEvent.isRecurring()) {
                         new AlertDialog.Builder(context)
-                                .setTitle("Deleting a Recurring Event")
-                                .setMessage("Are you sure you want to delete this recurring event? All occurrences of this event will also be deleted.")
+                                .setTitle("반복 일정 삭제")
+                                .setMessage("반복 일정을 삭제하시겠습니까? 이 일정의 모든 항목이 삭제됩니다.")
                                 .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
                                     public void onClick(DialogInterface dialog, int which) {
                                         new DeleteAsyncTask().execute(mEvent.getId());
@@ -180,7 +193,7 @@ public class UpcomingEventAdapter extends RecyclerView.Adapter<UpcomingEventAdap
                                         upcomingEventsFragment.setUpRecyclerView();
                                         upcomingEventsFragment.getFragmentManager().beginTransaction().detach(upcomingEventsFragment).commit();
                                         upcomingEventsFragment.getFragmentManager().beginTransaction().attach(upcomingEventsFragment).commit();
-                                        Toast.makeText(context, "Event removed!", Toast.LENGTH_SHORT).show();
+                                        Toast.makeText(context, "일정 삭제 완료", Toast.LENGTH_SHORT).show();
                                     }
                                 })
                                 .setNegativeButton(android.R.string.no, null)
@@ -195,7 +208,7 @@ public class UpcomingEventAdapter extends RecyclerView.Adapter<UpcomingEventAdap
                         notifyDataSetChanged();
                         upcomingEventsFragment.getFragmentManager().beginTransaction().detach(upcomingEventsFragment).commit();
                         upcomingEventsFragment.getFragmentManager().beginTransaction().attach(upcomingEventsFragment).commit();
-                        Toast.makeText(context, "Event removed!", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(context, "일정 삭제 완료", Toast.LENGTH_SHORT).show();
                         upcomingEventsFragment.setUpRecyclerView();
                     }
 
@@ -305,6 +318,10 @@ public class UpcomingEventAdapter extends RecyclerView.Adapter<UpcomingEventAdap
         return notifications;
     }
 
-
+    public void updateList(List<Event> list){
+        events = list;
+        System.out.print(events);
+        notifyDataSetChanged();
+    }
 
 }

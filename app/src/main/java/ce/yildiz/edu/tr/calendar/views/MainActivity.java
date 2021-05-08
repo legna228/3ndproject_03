@@ -1,5 +1,6 @@
 package ce.yildiz.edu.tr.calendar.views;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
@@ -22,6 +23,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
 
     private final Fragment calendarFragment = new CalendarFragment();
     private final Fragment upcomingEventsFragment = new UpcomingEventsFragment();
+    private final Fragment recordFragment = new RecordFragment();
     private final Fragment userSettingsFragment = new UserSettingsFragment();
 
     private final FragmentManager fragmentManager = getSupportFragmentManager();
@@ -37,7 +39,11 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
 
         fragmentManager.beginTransaction().add(R.id.MainActivity_FrameLayout_Container, userSettingsFragment).hide(userSettingsFragment).commit();
         fragmentManager.beginTransaction().add(R.id.MainActivity_FrameLayout_Container, upcomingEventsFragment).hide(upcomingEventsFragment).commit();
+        fragmentManager.beginTransaction().add(R.id.MainActivity_FrameLayout_Container,recordFragment).hide(recordFragment).commit();
         fragmentManager.beginTransaction().add(R.id.MainActivity_FrameLayout_Container, calendarFragment).commit();
+
+        //Intent intent = new Intent("android.settings.ACTION_NOTIFICATION_LISTENER_SETTINGS");
+        //startActivity(intent);
 
         if (getFlag("isChanged")) {
             bottomNavigationView.setSelectedItemId(R.id.BottomNavigation_Item_Settings);
@@ -55,6 +61,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
                 fragmentManager.beginTransaction()
                         .hide(userSettingsFragment)
                         .hide(upcomingEventsFragment)
+                        .hide(recordFragment)
                         .show(calendarFragment)
                         .commit();
                 break;
@@ -63,13 +70,23 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
                 fragmentManager.beginTransaction()
                         .hide(calendarFragment)
                         .hide(userSettingsFragment)
+                        .hide(recordFragment)
                         .show(upcomingEventsFragment)
+                        .commit();
+                break;
+            case R.id.BottomNavigation_Item_Record:
+                fragmentManager.beginTransaction()
+                        .hide(calendarFragment)
+                        .hide(userSettingsFragment)
+                        .hide(upcomingEventsFragment)
+                        .show(recordFragment)
                         .commit();
                 break;
             case R.id.BottomNavigation_Item_Settings:
                 fragmentManager.beginTransaction()
                         .hide(calendarFragment)
                         .hide(upcomingEventsFragment)
+                        .hide(recordFragment)
                         .show(userSettingsFragment)
                         .commit();
                 break;

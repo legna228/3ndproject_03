@@ -4,20 +4,28 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.PopupMenu;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -52,6 +60,17 @@ public class UpcomingEventsFragment extends Fragment {
     //public String period;
     private String todayDate;
 
+    public EditText editText_title;
+    private List<Event> events;
+    UpcomingEventAdapter disp_adapter;
+    ArrayAdapter<String> adapter;
+    //스피너 생성
+    Spinner spinner;
+    //스피너에 들어갈 item들
+    String[] items = {"-검색 항목-","일정 제목","일정 장소","일정 목적"};
+
+    Button btn_send;
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -64,6 +83,10 @@ public class UpcomingEventsFragment extends Fragment {
         initViews();
         defineListeners();
 
+        eventsRecyclerView.addItemDecoration(new DividerItemDecoration(getActivity(), LinearLayoutManager.VERTICAL));
+        final LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL,false);
+
+
         return view;
     }
 
@@ -72,6 +95,112 @@ public class UpcomingEventsFragment extends Fragment {
         changePeriodImageButton = (ImageButton) view.findViewById(R.id.UpcomingEventsFragment_ImageButton_Period);
         periodTextView = (TextView) view.findViewById(R.id.UpcomingEventsFragment_TextView_Period);
         eventsRecyclerView = (RecyclerView) view.findViewById(R.id.UpcomingEventsFragment_RecyclerView_Events);
+        editText_title = (EditText) view.findViewById(R.id.editText_title);
+        spinner = (Spinner) view.findViewById(R.id.spinner);
+
+        adapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_item,items);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinner.setAdapter(adapter);
+        spinner.invalidate();
+
+        /*btn_send=view.findViewById(R.id.btn_send);
+
+        // 버튼 검색부분
+        btn_send.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                // 여기서 부터 검색창에 입력한 단어가 들어간 목록들만 나와야 한다
+                String search = editText_title.getText().toString();
+
+                List<Event> temp = new ArrayList();
+                temp.clear();
+                SQLiteDatabase sqLiteDatabase = dbHelper.getReadableDatabase();
+                List<Event> allEvents = dbHelper.readAllEvents(sqLiteDatabase);
+
+                for (Event d : allEvents){
+                    if(d.getTitle().contains(search)){
+                        temp.add(d);
+                        Log.v("clickTest",d.getTitle());
+                        Log.v("clickTest",d.getTitle() + temp.size());
+                    }
+                }
+
+                if (getActivity()!=null){
+                    disp_adapter = new UpcomingEventAdapter(getActivity(),temp,null);
+                    // disp_adapter.updateList(temp);
+                    // disp_adapter.notifyDataSetChanged();
+                    eventsRecyclerView.setAdapter(disp_adapter);
+                    eventsRecyclerView.invalidate();
+                    eventsRecyclerView.getAdapter().notifyDataSetChanged();
+                }
+
+
+            }
+        });*/
+
+        editText_title.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                //input값으로부터 리스트를 filter
+                filter(editable.toString());
+            }
+        });
+    }
+
+    private void filter(String text) {
+        List<Event> temp = new ArrayList();
+        SQLiteDatabase sqLiteDatabase = dbHelper.getReadableDatabase();
+        List<Event> allEvents = dbHelper.readAllEvents(sqLiteDatabase);
+        for (Event d : allEvents){
+            //스피너 선택값 불러오기
+            if (spinner.getSelectedItem().toString().equals("일정 제목")){
+                if(d.getTitle().contains(text)){
+                    temp.add(d);
+                }
+            } else if (spinner.getSelectedItem().toString().equals("일정 장소")){
+                if (d.getLocation().contains(text)){
+                    temp.add(d);
+                    System.out.println(temp);
+                }
+            } else if (spinner.getSelectedItem().toString().equals("일정 목적")){
+                if(d.getNote().contains(text)){
+                    temp.add(d);
+                }
+            } else {
+                if(d.getTitle().contains(text)||d.getLocation().contains(text)||d.getNote().contains(text)){
+                    temp.add(d);
+                }
+            }
+        }
+        if (getActivity()!=null){
+            disp_adapter = new UpcomingEventAdapter(getActivity(),temp,null);
+            // disp_adapter.updateList(temp);
+            // disp_adapter.notifyDataSetChanged();
+
+            eventsRecyclerView.setAdapter(disp_adapter);
+            eventsRecyclerView.invalidate();
+            eventsRecyclerView.getAdapter().notifyDataSetChanged();
+        }
+
+        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int position, long id) {
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+            }
+        });
     }
 
     private void initViews() {
@@ -97,6 +226,10 @@ public class UpcomingEventsFragment extends Fragment {
                 @Override
                 public boolean onMenuItemClick(MenuItem menuItem) {
                     switch (menuItem.getItemId()) {
+                        case R.id.PopupPeriod_Item_All:
+                            Utils.CURRENT_FILTER = Utils.ALL;
+                            periodTextView.setText(Utils.CURRENT_FILTER);
+                            break;
                         case R.id.PopupPeriod_Item_Today:
                             Utils.CURRENT_FILTER = Utils.TODAY;
                             periodTextView.setText(Utils.CURRENT_FILTER);
@@ -134,6 +267,10 @@ public class UpcomingEventsFragment extends Fragment {
         List<Event> events = null;
         try {
             switch (Utils.CURRENT_FILTER) {
+                case Utils.ALL:
+                    events = collectAllEvents(today);
+                    System.out.print(events);
+                    break;
                 case Utils.TODAY:
                     events = collectTodayEvents(today);
                     break;
@@ -254,13 +391,6 @@ public class UpcomingEventsFragment extends Fragment {
                         eventList.add(event);
                     }
                     break;
-                case Utils.THIS_YEAR:
-                    mCalendar = (Calendar) fromCalendar.clone();
-                    mCalendar.set(Calendar.MONTH, recurringPattern.getMonthOfYear());
-                    mCalendar.set(Calendar.DAY_OF_MONTH, recurringPattern.getDayOfMonth());
-                    event = dbHelper.readEvent(sqLiteDatabase, recurringPattern.getEventId());
-                    event.setDate(Utils.eventDateFormat.format(today));
-                    eventList.add(event);
             }
         }
 
@@ -373,7 +503,7 @@ public class UpcomingEventsFragment extends Fragment {
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == getActivity().RESULT_OK) {
             setUpRecyclerView();
-            Toast.makeText(getActivity(), "Event edited!", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getActivity(), "일정 수정됨!", Toast.LENGTH_SHORT).show();
         }
     }
 }

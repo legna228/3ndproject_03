@@ -137,7 +137,7 @@ public class CalendarFragment extends Fragment {
                 if (eventsByDate.isEmpty()) {
                     savedEventsRecyclerView.setVisibility(View.INVISIBLE);
                     noEventTextView.setVisibility(View.VISIBLE);
-                    addNewEventButton.setText("CREATE EVENT");
+                    addNewEventButton.setText("일정 생성");
                 } else {
                     savedEventsRecyclerView.setVisibility(View.VISIBLE);
                     noEventTextView.setVisibility(View.GONE);
@@ -147,7 +147,7 @@ public class CalendarFragment extends Fragment {
                     final EventAdapter eventAdapter = new EventAdapter(getActivity(), eventsByDate, alertDialog, CalendarFragment.this);
                     savedEventsRecyclerView.setAdapter(eventAdapter);
                     eventAdapter.notifyDataSetChanged();
-                    addNewEventButton.setText("ADD EVENT");
+                    addNewEventButton.setText("일정 추가");
                 }
 
 
@@ -174,7 +174,7 @@ public class CalendarFragment extends Fragment {
         Calendar monthCalendar = (Calendar) calendar.clone();
         monthCalendar.set(Calendar.DAY_OF_MONTH, 1); // start from Monday
 
-        int firstDayOfMonth = monthCalendar.get(Calendar.DAY_OF_WEEK) - 2;
+        int firstDayOfMonth = monthCalendar.get(Calendar.DAY_OF_WEEK) - 1;
         monthCalendar.add(Calendar.DAY_OF_MONTH, -firstDayOfMonth);
 
         collectEventsByMonth(Utils.yearFormat.format(calendar.getTime()), Utils.monthFormat.format(calendar.getTime()));
@@ -290,12 +290,12 @@ public class CalendarFragment extends Fragment {
         if (requestCode == ADD_NEW_EVENT_ACTIVITY_REQUEST_CODE) {
             if (resultCode == getActivity().RESULT_OK) {
                 setUpCalendar();
-                Toast.makeText(getActivity(), "Event created!", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getActivity(), "일정 생성완료!", Toast.LENGTH_SHORT).show();
             }
         } else if (requestCode == EDIT_EVENT_ACTIVITY_REQUEST_CODE) {
             if (resultCode == getActivity().RESULT_OK) {
                 setUpCalendar();
-                Toast.makeText(getActivity(), "Event edited!", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getActivity(), "일정 수정완료!", Toast.LENGTH_SHORT).show();
                 alertDialog.dismiss();
             }
         }

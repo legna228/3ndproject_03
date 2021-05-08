@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#6200EE</color>
-    <color name="colorPrimaryDark">#3700B3</color>
-    <color name="colorAccent">#03DAC5</color>
+    <color name="colorPrimary">#FFA500</color>
+    <color name="colorPrimaryDark">#FF7043</color>
+    <color name="colorAccent">#FFAB40</color>
+    <color name="colorAccent2">#FFC079</color>
+    <color name="colorGray">#8C8C8C</color>
 
 
     <color name="Indigo">#2c3e50</color>
@@ -17,9 +19,9 @@
     <color name="white">#FFFFFF</color>
     <color name="black">#000000</color>
     <color name="lime">#C6FF00</color>
-    <color name="darkIndigo">#212E3A</color>
+    <color name="darkIndigo">#212E3A</color> <!--상태바 색상-->
     <color name="darkIndigo2">#3C4955</color>
-    <color name="lightIndigo">#A0BDD8</color>
+    <color name="lightIndigo">#FFDE66</color>
     <color name="Grey">#5E5E5E</color>
     <color name="lightGrey">#C5C5C5</color>
     <color name="darkGrey">#35363A</color>
@@ -28,5 +30,8 @@
     <color name="lBlack">#1F1F1F</color>
     <color name="Grey900">#212121</color>
     <color name="Grey800">#424242</color>
+
+
+
 
 </resources>

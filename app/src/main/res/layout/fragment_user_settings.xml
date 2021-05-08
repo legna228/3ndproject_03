@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
+
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -7,7 +9,7 @@
         android:id="@+id/UserSettingsFragment_Header"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="?attr/mainColor">
+        android:background="@color/colorAccent">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -54,7 +56,7 @@
         android:layout_below="@+id/UserSettingsFragment_Header"
         android:background="?attr/Background">
 
-        <LinearLayout xmlns:app="http://schemas.android.com/apk/res-auto"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
@@ -73,14 +75,14 @@
 
                     <ImageView
                         android:id="@+id/UserSettingsFragment_ImageView_RingTone"
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
+                        android:layout_width="40dp"
+                        android:layout_height="64dp"
                         android:layout_marginEnd="5dp"
-                        app:srcCompat="@drawable/ic_music_note_black" />
+                        app:srcCompat="@drawable/ic_notify" />
 
                     <LinearLayout
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent"
+                        android:layout_height="wrap_content"
                         android:orientation="vertical"
                         android:padding="10dp">
 
@@ -126,14 +128,14 @@
 
                     <ImageView
                         android:id="@+id/UserSettingsFragment_ImageView_ReminderTime"
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
+                        android:layout_width="40dp"
+                        android:layout_height="64dp"
                         android:layout_marginEnd="5dp"
-                        app:srcCompat="@drawable/ic_timer_black" />
+                        app:srcCompat="@drawable/ic_time" />
 
                     <LinearLayout
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent"
+                        android:layout_height="wrap_content"
                         android:orientation="vertical"
                         android:padding="10dp">
 
@@ -179,13 +181,13 @@
 
                     <ImageView
                         android:id="@+id/UserSettingsFragment_ImageView_ReminderFrequency"
-                        android:layout_width="wrap_content"
+                        android:layout_width="40dp"
                         android:layout_height="match_parent"
                         app:srcCompat="@drawable/ic_repeat" />
 
                     <LinearLayout
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent"
+                        android:layout_height="wrap_content"
                         android:orientation="vertical"
                         android:padding="10dp">
 
@@ -232,15 +234,15 @@
 
                     <ImageView
                         android:id="@+id/UserSettingsFragment_ImageView_AppTheme"
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
+                        android:layout_width="40dp"
+                        android:layout_height="64dp"
                         android:layout_marginEnd="5dp"
-                        app:srcCompat="@drawable/ic_palette" />
+                        app:srcCompat="@drawable/ic_color" />
 
 
                     <LinearLayout
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent"
+                        android:layout_height="wrap_content"
                         android:orientation="vertical"
                         android:padding="10dp">
 
@@ -259,6 +261,52 @@
                             android:layout_height="wrap_content"
                             android:text="Dark Theme"
                             android:textColor="?attr/textColor" />
+
+                    </LinearLayout>
+                </LinearLayout>
+
+
+            </androidx.cardview.widget.CardView>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/Grey" />
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/UserSettingsFragment_CardView_Kakao"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginEnd="20dp"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:id="@+id/UserSettingsFragment_ImageView_Kakao"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_marginEnd="5dp"
+                        app:srcCompat="@drawable/ic_people_white" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:padding="10dp">
+
+                        <TextView
+                            android:id="@+id/UserSettingsFragment_TextView_KaKaoLabel"
+                            android:layout_width="match_parent"
+                            android:layout_height="48dp"
+                            android:gravity="fill"
+                            android:text="SNS 데이터 가져오기"
+                            android:textColor="?attr/textColor"
+                            android:textSize="20sp"
+                            android:textStyle="bold" />
 
                     </LinearLayout>
                 </LinearLayout>

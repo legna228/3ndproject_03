@@ -9,7 +9,7 @@
         android:id="@+id/AlertDialogLayout_Repeat_TextView_Title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="?attr/mainColor"
+        android:background="@color/colorAccent"
         android:gravity="center"
         android:padding="10dp"
         android:text="@string/repetition"

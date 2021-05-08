@@ -11,11 +11,11 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical">
-
+            <!--메인 위치 색바꿈 android:background="@color/colorAccent" -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="?attr/mainColor"
+            android:background="@color/colorAccent"
             android:gravity="center"
             android:orientation="horizontal"
             android:padding="20dp">
@@ -48,12 +48,13 @@
                 app:srcCompat="@drawable/ic_arrow_forward_white" />
 
         </LinearLayout>
+        <!--여기 색바꿈-->
+
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/darkIndigo"
-            android:gravity="center"
+            android:background="@color/yellow"
             android:orientation="horizontal"
             android:padding="1dp" />
 
@@ -62,15 +63,15 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal">
-
+            <!--월화수목금색바꿈-->
             <TextView
                 android:id="@+id/CalenderFragment_TextView_Mon"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:background="?attr/headViewColor"
+                android:background="@color/colorPrimary"
                 android:gravity="center"
-                android:text="@string/mon"
+                android:text="@string/sun"
                 android:textColor="@color/white"
                 android:textStyle="bold" />
 
@@ -79,9 +80,9 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:background="?attr/headViewColor"
+                android:background="@color/colorPrimary"
                 android:gravity="center"
-                android:text="@string/tue"
+                android:text="@string/mon"
                 android:textColor="@color/white"
                 android:textStyle="bold" />
 
@@ -90,9 +91,9 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:background="?attr/headViewColor"
+                android:background="@color/colorPrimary"
                 android:gravity="center"
-                android:text="@string/wed"
+                android:text="@string/tue"
                 android:textColor="@color/white"
                 android:textStyle="bold" />
 
@@ -101,9 +102,9 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:background="?attr/headViewColor"
+                android:background="@color/colorPrimary"
                 android:gravity="center"
-                android:text="@string/thu"
+                android:text="@string/wed"
                 android:textColor="@color/white"
                 android:textStyle="bold" />
 
@@ -112,9 +113,9 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:background="?attr/headViewColor"
+                android:background="@color/colorPrimary"
                 android:gravity="center"
-                android:text="@string/fri"
+                android:text="@string/thu"
                 android:textColor="@color/white"
                 android:textStyle="bold" />
 
@@ -124,9 +125,9 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:background="?attr/headViewColor"
+                android:background="@color/colorPrimary"
                 android:gravity="center"
-                android:text="@string/sat"
+                android:text="@string/fri"
                 android:textColor="@color/white"
                 android:textStyle="bold" />
 
@@ -135,9 +136,9 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:background="?attr/headViewColor"
+                android:background="@color/colorPrimary"
                 android:gravity="center"
-                android:text="@string/sun"
+                android:text="@string/sat"
                 android:textColor="@color/white"
                 android:textStyle="bold" />
         </LinearLayout>
@@ -149,6 +150,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@id/CalenderFragment_Header_Calendar"
+        android:layout_marginTop="1dp"
         android:numColumns="7" />
 
 </RelativeLayout>

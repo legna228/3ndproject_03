@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,6 +20,25 @@ import androidx.annotation.Nullable;
 import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
 
+import com.android.volley.AuthFailureError;
+import com.android.volley.NetworkResponse;
+import com.android.volley.ParseError;
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.HttpHeaderParser;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.UnsupportedEncodingException;
+import java.util.HashMap;
+import java.util.Map;
+
 import ce.yildiz.edu.tr.calendar.R;
 
 public class UserSettingsFragment extends Fragment {
@@ -29,6 +49,7 @@ public class UserSettingsFragment extends Fragment {
     private CardView reminderTimeCardView;
     private CardView reminderFrequencyCardView;
     private CardView appThemeCardView;
+    private CardView snsCardView;
 
     private TextView ringtoneTextView;
     private TextView reminderTimeTextView;
@@ -42,8 +63,15 @@ public class UserSettingsFragment extends Fragment {
 
     private boolean isChanged;
 
+    // 실제 서버에 요청하는 객체
+    private RequestQueue queue;
+    //요청 시 데이터 및 문자열(정보) 저장 객체
+    private StringRequest stringRequest;
+    JSONObject object;
+
     @Nullable
     @Override
+
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_user_settings, container, false);
 
@@ -53,6 +81,7 @@ public class UserSettingsFragment extends Fragment {
         defineListeners();
 
         return view;
+
     }
 
 
@@ -61,6 +90,7 @@ public class UserSettingsFragment extends Fragment {
         reminderTimeCardView = (CardView) view.findViewById(R.id.UserSettingsFragment_CardView_ReminderTime);
         reminderFrequencyCardView = (CardView) view.findViewById(R.id.UserSettingsFragment_CardView_ReminderFrequency);
         appThemeCardView = (CardView) view.findViewById(R.id.UserSettingsFragment_CardView_AppTheme);
+        snsCardView = (CardView) view.findViewById(R.id.UserSettingsFragment_CardView_Kakao);
 
         ringtoneTextView = (TextView) view.findViewById(R.id.UserSettingsFragment_TextView_DefaultRingtone);
         reminderTimeTextView = (TextView) view.findViewById(R.id.UserSettingsFragment_TextView_DefaultReminderTime);
@@ -72,7 +102,7 @@ public class UserSettingsFragment extends Fragment {
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
         ringtoneTextView.setText(sharedPreferences.getString("ringtone", "Consequence"));
         reminderTimeTextView.setText(sharedPreferences.getString("reminder", getResources().getString(R.string.at_the_time_of_event)));
-        reminderFrequencyTextView.setText(sharedPreferences.getString("frequency", "One-Time"));
+        reminderFrequencyTextView.setText(sharedPreferences.getString("frequency", "1회"));
         appThemeTextView.setText(sharedPreferences.getString("theme", "Indigo"));
     }
 
@@ -197,9 +227,86 @@ public class UserSettingsFragment extends Fragment {
                         changeTheme();
                     }
                 });
-
             }
         });
+
+        snsCardView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                sendRequest_snsImport();
+            }
+        });
+    }
+
+    private void sendRequest_snsImport() {
+        // Volley Lib 새로운 요청객체 생성
+        JSONArray arr;
+        queue = Volley.newRequestQueue(getContext());
+        // 서버에 요청할 주소
+        String url = "http://59.0.234.238:8091/AndroidMember/ScheduleSelect";//수정
+
+        // 요청 문자열 저장
+        stringRequest = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
+
+            @Override
+            public void onResponse(String response) {
+
+                try {
+                    StaticData.array = new JSONArray(response);
+                    Log.v("sss", StaticData.array.length()+"");
+                    for (int i=0;i<StaticData.array.length();i++){
+                        object = (JSONObject) StaticData.array.get(i);
+                        String purpose = object.getString("shlocation");
+                        Log.v("resultValue2", purpose);
+                    }
+
+                    try {
+                        Thread.sleep(2000);
+                        insertSql02 insert = new insertSql02(getContext());
+                        insert.addBook();
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+
+
+                }catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+            // 응답데이터를 받아오는 곳
+
+        }, new Response.ErrorListener() {
+            // 서버와의 연동 에러시 출력
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                error.printStackTrace();
+            }
+        }){
+            @Override //response를 UTF8로 변경해주는 소스코드
+            protected Response<String> parseNetworkResponse(NetworkResponse response) {
+                try {
+                    String utf8String = new String(response.data, "UTF-8");
+                    return Response.success(utf8String, HttpHeaderParser.parseCacheHeaders(response));
+                } catch (UnsupportedEncodingException e) {
+                    // log error
+                    return Response.error(new ParseError(e));
+                } catch (Exception e) {
+                    // log error
+                    return Response.error(new ParseError(e));
+                }
+            }
+
+            // 보낼 데이터를 저장하는 곳
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                Map<String, String> params = new HashMap<String, String>();
+                //데이터를 넣어주는 곳 params.put("key", "value");
+                params.put("id", "smart");
+                return params;
+            }
+        };
+        stringRequest.setTag(TAG);
+        queue.add(stringRequest);
     }
 
     private void changeTheme() {

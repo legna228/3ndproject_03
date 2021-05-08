@@ -18,7 +18,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_above="@id/MainActivity_BottomNavigation"
-        android:background="@color/darkIndigo"
+        android:background="@color/colorAccent"
         android:gravity="center"
         android:orientation="horizontal"
         android:padding="1dp" />
@@ -29,7 +29,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:background="?attr/mainColor"
+        android:background="@color/colorAccent"
         app:itemIconTint="@drawable/selector"
         app:itemTextColor="@drawable/selector"
         app:labelVisibilityMode="unlabeled"

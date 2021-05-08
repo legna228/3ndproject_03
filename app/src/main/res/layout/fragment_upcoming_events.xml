@@ -9,7 +9,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="?attr/mainColor">
+        android:background="@color/colorAccent">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -50,7 +50,7 @@
                 android:id="@+id/UpcomingEventsFragment_ImageButton_Period"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:background="?attr/mainColor"
+                android:background="@color/colorPrimary"
                 app:srcCompat="@drawable/ic_arrow_down_white" />
 
         </LinearLayout>
@@ -60,7 +60,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="?attr/headViewColor"
+        android:background="@color/colorAccent2"
         android:gravity="center"
         android:orientation="horizontal"
         android:padding="15dp">
@@ -76,6 +76,28 @@
             android:textSize="18sp"
             android:textStyle="bold" />
 
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <Spinner
+            android:id="@+id/spinner"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:gravity="right" />
+
+        <EditText
+            android:id="@+id/editText_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:ems="10"
+            android:hint="일정 제목을 입력해주세요."
+            android:inputType="textPersonName" />
 
     </LinearLayout>
 

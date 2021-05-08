@@ -76,8 +76,8 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.ViewHolder> 
                 final Event mEvent = eventList.get(position);
                 if (mEvent.isRecurring()) {
                     new AlertDialog.Builder(context)
-                            .setTitle("Deleting a Recurring Event")
-                            .setMessage("Are you sure you want to delete this recurring event? All occurrences of this event will also be deleted.")
+                            .setTitle("반복 일정 삭제")
+                            .setMessage("반복 일정을 삭제하시겠습니까? 이 일정의 모든 항목이 삭제됩니다.")
                             .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
                                 public void onClick(DialogInterface dialog, int which) {
                                     //deleteEvent(mEvent.getId());
@@ -86,7 +86,7 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.ViewHolder> 
                                     notifyItemRangeChanged(position, eventList.size());
                                     notifyDataSetChanged();
                                     calendarFragment.setUpCalendar();
-                                    Toast.makeText(context, "Event removed!", Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(context, "일정 삭제 완료!", Toast.LENGTH_SHORT).show();
                                     if (eventList.isEmpty()) {
                                         alertDialog.dismiss();
                                     }
@@ -117,6 +117,7 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.ViewHolder> 
         holder.eventColorImageView.setBackgroundColor(event.getColor());
         holder.eventTitleTextView.setText(event.getTitle());
         holder.eventTimeTextView.setText(event.getTime());
+        holder.eventLocationTextView.setText(event.getLocation());
         holder.eventNoteTextView.setText(event.getNote());
 
         holder.eventCardView.setOnClickListener(new View.OnClickListener() {
@@ -166,6 +167,8 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.ViewHolder> 
         private ImageView eventColorImageView;
         private TextView eventTitleTextView;
         private TextView eventTimeTextView;
+        private TextView eventLocationTextView;
+
         private TextView eventNoteTextView;
         private ImageButton optionsImageButton;
         private ImageButton notificationImageButton;
@@ -178,6 +181,8 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.ViewHolder> 
             eventColorImageView = (ImageView) itemView.findViewById(R.id.LayoutCell_ImageView_EventColor);
             eventTitleTextView = (TextView) itemView.findViewById(R.id.LayoutCell_TextView_EventTitle);
             eventTimeTextView = (TextView) itemView.findViewById(R.id.LayoutCell_TextView_EventTime);
+            eventLocationTextView = (TextView) itemView.findViewById(R.id.LayoutCell_TextView_Location);
+
             eventNoteTextView = (TextView) itemView.findViewById(R.id.LayoutCell_TextView_EventNote);
             optionsImageButton = (ImageButton) itemView.findViewById(R.id.LayoutCell_ImageButton_Options);
             notificationImageButton = (ImageButton) itemView.findViewById(R.id.LayoutCell_ImageButton_Notification);
@@ -207,8 +212,8 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.ViewHolder> 
                 case R.id.Popup_Item_Delete:
                     if (mEvent.isRecurring()) {
                         new AlertDialog.Builder(context)
-                                .setTitle("Deleting a Recurring Event")
-                                .setMessage("Are you sure you want to delete this recurring event? All occurrences of this event will also be deleted.")
+                                .setTitle("반복 일정 삭제")
+                                .setMessage("반복 일정을 삭제하시겠습니까? 이 일정의 모든 항목이 삭제됩니다.")
                                 .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
                                     public void onClick(DialogInterface dialog, int which) {
                                         new DeleteAsyncTask().execute(mEvent.getId());
@@ -218,7 +223,7 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.ViewHolder> 
                                         notifyItemRangeChanged(position, eventList.size());
                                         notifyDataSetChanged();
                                         calendarFragment.setUpCalendar();
-                                        Toast.makeText(context, "Event removed!", Toast.LENGTH_SHORT).show();
+                                        Toast.makeText(context, "일정 삭제 완료!", Toast.LENGTH_SHORT).show();
                                         if (eventList.isEmpty()) {
                                             alertDialog.dismiss();
                                         }
@@ -235,7 +240,7 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.ViewHolder> 
                         notifyItemRangeChanged(position, eventList.size());
                         notifyDataSetChanged();
                         calendarFragment.setUpCalendar();
-                        Toast.makeText(context, "Event removed!", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(context, "일정 삭제 완료!", Toast.LENGTH_SHORT).show();
                         if (eventList.isEmpty()) {
                             alertDialog.dismiss();
                         }

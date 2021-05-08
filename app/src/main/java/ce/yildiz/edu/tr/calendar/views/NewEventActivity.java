@@ -163,7 +163,7 @@ public class NewEventActivity extends AppCompatActivity {
         bgShape.setColor(getResources().getInteger(R.color.red));
 
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
-        repeatTextView.setText(sharedPreferences.getString("frequency", "Repeat One-Time"));
+        repeatTextView.setText(sharedPreferences.getString("frequency", "반복 1회"));
         notifications.add(new Notification(sharedPreferences.getString("reminder", getResources().getString(R.string.at_the_time_of_event))));
         setUpRecyclerView();
     }
@@ -223,7 +223,7 @@ public class NewEventActivity extends AppCompatActivity {
             @SuppressLint("SetTextI18n")
             @Override
             public void onCheckedChanged(RadioGroup group, int checkedId) {
-                repeatTextView.setText("Repeat " + ((RadioButton) eventRepetitionDialogView.findViewById(checkedId)).getText().toString());
+                repeatTextView.setText("반복 " + ((RadioButton) eventRepetitionDialogView.findViewById(checkedId)).getText().toString());
                 repetitionAlertDialog.dismiss();
             }
         });
@@ -323,10 +323,10 @@ public class NewEventActivity extends AppCompatActivity {
         TimePickerDialog timePickerDialog = new TimePickerDialog(this, R.style.DurationPickerTheme, new TimePickerDialog.OnTimeSetListener() {
             @Override
             public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
-                setDurationButton.setText("DURATION: " + Integer.toString(hourOfDay) + " HOURS " + Integer.toString(minute) + " MINUTES");
+                setDurationButton.setText("일정지속: " + Integer.toString(hourOfDay) + " 시간 " + Integer.toString(minute) + " 분");
             }
         }, 0, 0, true);
-        timePickerDialog.setTitle("Duration");
+        timePickerDialog.setTitle("일정지속");
 
         timePickerDialog.show();
     }
@@ -501,7 +501,8 @@ public class NewEventActivity extends AppCompatActivity {
             aDate = Utils.eventDateFormat.parse((String) setDateTextView.getText());
         } catch (ParseException e) {
             e.printStackTrace();
-            Log.e(TAG, "An error has occurred while parsing the date string");
+//            Log.e(TAG, "An error has occurred while parsing the date string");
+            Log.e(TAG, "날짜문자열에 오류가 발생했습니다.");
         }
         event.setTitle(eventTitleTextInputLayout.getEditText().getText().toString().trim());
         event.setAllDay(allDayEventSwitch.isChecked());
@@ -526,8 +527,11 @@ public class NewEventActivity extends AppCompatActivity {
 
     }
 
+//    private boolean isRecurring(String toString) {
+//        return !toString.equals("Repeat One-Time");
+//    }
     private boolean isRecurring(String toString) {
-        return !toString.equals("Repeat One-Time");
+        return !toString.equals("반복 1회");
     }
 
     private boolean confirmInputs() {
@@ -536,7 +540,8 @@ public class NewEventActivity extends AppCompatActivity {
         }
 
         if (!validateNotifications()) {
-            Snackbar.make(addNotificationTextView, "You cannot set a notification to the past.", BaseTransientBottomBar.LENGTH_SHORT).show();
+//            Snackbar.make(addNotificationTextView, "You cannot set a notification to the past.", BaseTransientBottomBar.LENGTH_SHORT).show();
+            Snackbar.make(addNotificationTextView, "지난 일정은 알람을 설정할 수 없습니다.", BaseTransientBottomBar.LENGTH_SHORT).show();
             return false;
         }
         return true;
@@ -545,7 +550,8 @@ public class NewEventActivity extends AppCompatActivity {
     private boolean validateEventTitle() {
         String eventTitleString = eventTitleTextInputLayout.getEditText().getText().toString().trim();
         if (eventTitleString.isEmpty()) {
-            eventTitleTextInputLayout.setError("Field can't be empty!");
+//            eventTitleTextInputLayout.setError("Field can't be empty!");
+            eventTitleTextInputLayout.setError("필수입력 입니다.");
             return false;
         } else {
             eventTitleTextInputLayout.setError(null);
